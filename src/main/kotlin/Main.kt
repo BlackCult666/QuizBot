@@ -52,9 +52,9 @@ class StartCommand(
 ) : CommandHandler {
 
     override fun onCommand(command: Command, message: TextMessage) {
-        val firstName : String = message.sender.firstName
-        val id : Long = message.sender.id
-        if(message.chat is PrivateChat) {
+        val firstName: String = message.sender.firstName
+        val id: Long = message.sender.id
+        if (message.chat is PrivateChat) {
             val sendMessage = SendMessage()
                 .replyToMessage(message)
                 .text(Text.parseHtml(PropertiesReader.getProperty("start-message").format(id, firstName)))
@@ -84,68 +84,87 @@ class QuizHandler(
     private val databaseWrapper: DatabaseWrapper
 ) : CallbackQueryHandler {
 
+    private val cooldowns = mutableSetOf<Long>()
 
     override fun onCallbackQuery(callbackQuery: CallbackQuery) {
-        val callback : String = callbackQuery.data.get()
-        if(callback.startsWith("answer")) {
+        val callback: String = callbackQuery.data.get()
+        if (callback.startsWith("answer")) {
             val uuid = callback.split("@")[1]
             val answer = callback.split("@")[2]
             handleGame(uuid, answer, callbackQuery)
         }
     }
+
     fun handleGame(uuid: String, answer: String, callbackQuery: CallbackQuery) {
         val answerCallbackQuery = AnswerCallbackQuery().callbackQuery(callbackQuery)
-        if(uuid != QuestionManager.question.uuid) {
+        if (uuid != QuestionManager.question.uuid) {
             answerCallbackQuery.text(PropertiesReader.getProperty("expired-question-query"))
         } else {
-            checkAnswer(answer, callbackQuery)
+            if(!cooldowns.contains(callbackQuery.sender.id)) {
+                addPlayerCooldown(callbackQuery.sender.id)
+                checkAnswer(answer, callbackQuery)
+            } else {
+                answerCallbackQuery.text(PropertiesReader.getProperty("cooldown-query"))
+            }
         }
         bot.execute(answerCallbackQuery)
     }
+
+    fun addPlayerCooldown(id: Long) {
+        cooldowns.add(id)
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                cooldowns.remove(id)
+            }
+        }, PropertiesReader.getProperty("cooldown-delay").toLong() * 1000)
+    }
+
     fun checkAnswer(answer: String, callbackQuery: CallbackQuery) {
         val id = callbackQuery.sender.id
-
-        val question = QuestionManager.question
         val correctAnswer = QuestionManager.question.answer
-        val answerQuery = AnswerCallbackQuery().callbackQuery(callbackQuery)
-        if(answer.equals(correctAnswer, ignoreCase=true)) {
-            val firstName = callbackQuery.sender.firstName
-            val time : String = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
-            val newQuestion : String = question.toString().replace("\uD83D\uDD39 ${question.answer}", "\uD83D\uDD38 <b>${question.answer}</b>")
 
+        if (answer == correctAnswer) {
             databaseWrapper.incrementCorrectNumber(id)
             databaseWrapper.incrementStreak(id)
             databaseWrapper.checkBestStreak(id)
-
-            answerQuery.text(PropertiesReader.getProperty("correct-answer-query"))
-            val editMessage = EditMessageText()
-                .callbackQuery(callbackQuery)
-                .text(Text.parseHtml("${newQuestion}\n" + PropertiesReader.getProperty("game-ended").format(question.description, mentionPlayer(firstName, id), correctAnswer, time, databaseWrapper.getActualStreak(id))))
-                .replyMarkup(null)
-            bot.execute(editMessage)
+            cooldowns.clear()
+            matchEnded(callbackQuery)
         } else {
             databaseWrapper.incrementErrorsNumber(id)
             databaseWrapper.resetActualStreak(id)
-            answerQuery.text(PropertiesReader.getProperty("wrong-answer-query"))
+            bot.execute(AnswerCallbackQuery().callbackQuery(callbackQuery).text(PropertiesReader.getProperty("wrong-answer-query")))
         }
+    }
+    fun matchEnded(callbackQuery: CallbackQuery) {
+        val question = QuestionManager.question
+        val correctAnswer = QuestionManager.question.answer
+
+        val time: String = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        val newQuestion: String = question.toString()
+            .replace("\uD83D\uDD39 ${question.answer}", "\uD83D\uDD38 <b>${question.answer}</b>")
+
+        val answerQuery = AnswerCallbackQuery().callbackQuery(callbackQuery).text(PropertiesReader.getProperty("correct-answer-query"))
+        val editMessage = EditMessageText().callbackQuery(callbackQuery).text(Text.parseHtml("${newQuestion}\n" + PropertiesReader.getProperty("game-ended").format(question.description, mentionPlayer(callbackQuery.sender.firstName, callbackQuery.sender.id), correctAnswer, time, databaseWrapper.getActualStreak(callbackQuery.sender.id)))).replyMarkup(null)
+        bot.execute(editMessage)
         bot.execute(answerQuery)
     }
 }
+
 class StatsCommand(
     private val bot: Bot,
     private val databaseWrapper: DatabaseWrapper
 ) : CommandHandler {
 
     override fun onCommand(command: Command, message: TextMessage) {
-        val firstName : String = message.sender.firstName
-        val id : Long = message.sender.id
+        val firstName: String = message.sender.firstName
+        val id: Long = message.sender.id
         val sendMessage = SendMessage().replyToMessage(message)
         /*if(message.chat is PrivateChat) {
             sendMessage.replyToMessage(message).text(Text.parseHtml( utils.mentionPlayer(firstName, id) + "<i>, non puoi usarmi in chat privata!</i>"))
         }*/
-        sendMessage.text(Text.parseHtml(
-            PropertiesReader.getProperty("stats-message")
-            .format(mentionPlayer(firstName, id), databaseWrapper.getCorrectAnswers(id), databaseWrapper.getWrongAnswers(id), databaseWrapper.getActualStreak(id), databaseWrapper.getBestStreak(id))))
+        sendMessage.text(Text.parseHtml(PropertiesReader.getProperty("stats-message")
+                    .format(mentionPlayer(firstName, id), databaseWrapper.getCorrectAnswers(id), databaseWrapper.getWrongAnswers(id), databaseWrapper.getActualStreak(id), databaseWrapper.getBestStreak(id))))
         bot.execute(sendMessage)
     }
 

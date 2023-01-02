@@ -1,16 +1,9 @@
 [
   {
-    "question": "Quale tra questi è il pianeta più grande del Sistema Solare?",
-    "answers": ["Giove", "Terra", "Marte", "Venere"],
-    "answer": "Giove",
-    "description": "//",
+    "question": "Quali dei seguenti linguaggi di programmazione è nato prima?",
+    "answers": ["C#", "Brainfuck", "Java", "Ruby"],
+    "answer": "Brainfuck",
+    "description": "C# è nato nel 2000, Java e Ruby sono nati entrambi nel 1995, mentre Brainfuck è nato nel 1993 con lo scopo di essere implementato con il compilatore più piccolo possibile.",
     "number": 1
-  },
-  {
-    "question": "Quale tra queste è la valuta ufficiale del Giappone?",
-    "answers": ["Yen", "Dollaro", "Euro", "Sterlina"],
-    "answer": "Yen",
-    "description": "//",
-    "number": 2
   }
 ]
