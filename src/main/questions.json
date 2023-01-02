@@ -2,7 +2,7 @@
   {
     "question": "Quale tra questi è il pianeta più grande del Sistema Solare?",
     "answers": ["Giove", "Terra", "Marte", "Venere"],
-    "answer": "Jupiter",
+    "answer": "Giove",
     "description": "//",
     "number": 1
   },
