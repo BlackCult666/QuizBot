@@ -1,0 +1,16 @@
+[
+  {
+    "question": "Quale tra questi è il pianeta più grande del Sistema Solare?",
+    "answers": ["Giove", "Terra", "Marte", "Venere"],
+    "answer": "Jupiter",
+    "description": "//",
+    "number": 1
+  },
+  {
+    "question": "Quale tra queste è la valuta ufficiale del Giappone?",
+    "answers": ["Yen", "Dollaro", "Euro", "Sterlina"],
+    "answer": "Yen",
+    "description": "//",
+    "number": 2
+  }
+]
