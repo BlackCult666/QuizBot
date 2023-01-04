@@ -161,7 +161,7 @@ class StatsCommand(
         val id: Long = message.sender.id
         val sendMessage = SendMessage().replyToMessage(message)
         /*if(message.chat is PrivateChat) {
-            TODO() It's not a priority atm
+            sendMessage.replyToMessage(message).text(Text.parseHtml( utils.mentionPlayer(firstName, id) + "<i>, non puoi usarmi in chat privata!</i>"))
         }*/
         sendMessage.text(Text.parseHtml(PropertiesReader.getProperty("stats-message")
                     .format(mentionPlayer(firstName, id), databaseWrapper.getCorrectAnswers(id), databaseWrapper.getWrongAnswers(id), databaseWrapper.getActualStreak(id), databaseWrapper.getBestStreak(id))))
