@@ -14,6 +14,7 @@ class QuestionManager {
         fun getRandomQuestion(): Question {
             val random = Random()
             question = questions[random.nextInt(questions.size)]
+            question.possibleAnswers.shuffle()
             return question
         }
     }

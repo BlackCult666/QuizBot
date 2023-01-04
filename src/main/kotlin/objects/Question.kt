@@ -1,21 +1,19 @@
 package objects
 
 import config.PropertiesReader
+import java.util.*
 
-class Question(
+data class Question(
     val question: String,
-    val answers: Array<String>,
-    val answer: String,
+    val possibleAnswers: Array<String>,
+    val correctAnswer: String,
     val description: String,
     val number: Int,
     var uuid: String
 ) {
-    fun setUUID(random : String) {
-        this.uuid = random
-    }
     override fun toString(): String {
         var result = ""
-        for (i in answers) {
+        for (i in possibleAnswers) {
             result += PropertiesReader.getProperty("possible-answers-decoration") + " " + i + "\n"
         }
         return PropertiesReader.getProperty("question-format").format(number, question, result)

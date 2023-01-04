@@ -9,7 +9,7 @@ fun mentionPlayer(firstName: String, id: Long): String {
 
 fun getButtons(): InlineKeyboardMarkup {
     val question = QuestionManager.question
-    val answers = question.answers
+    val answers = question.possibleAnswers
     return Json.fromJson(
         "{\"inline_keyboard\": [[{\"text\":\"${answers[0]}\", \"callback_data\":\"answer@${question.uuid}@${answers[0]}\"}," +
                 "{\"text\":\"${answers[1]}\", \"callback_data\":\"answer@${question.uuid}@${answers[1]}\"}], " +

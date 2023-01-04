@@ -69,7 +69,7 @@ class QuizTimer(
 
     fun startQuiz() {
         QuestionManager.question = QuestionManager.getRandomQuestion()
-        QuestionManager.question.setUUID(UUID.randomUUID().toString())
+        QuestionManager.question.uuid = UUID.randomUUID().toString()
         val sendMessage = SendMessage()
             .chat(PropertiesReader.getProperty("chat-id"))
             .text(Text.parseHtml(QuestionManager.question.toString()))
@@ -122,7 +122,7 @@ class QuizHandler(
 
     fun checkAnswer(answer: String, callbackQuery: CallbackQuery) {
         val id = callbackQuery.sender.id
-        val correctAnswer = QuestionManager.question.answer
+        val correctAnswer = QuestionManager.question.correctAnswer
 
         if (answer == correctAnswer) {
             databaseWrapper.incrementCorrectNumber(id)
@@ -138,11 +138,11 @@ class QuizHandler(
     }
     fun matchEnded(callbackQuery: CallbackQuery) {
         val question = QuestionManager.question
-        val correctAnswer = QuestionManager.question.answer
+        val correctAnswer = QuestionManager.question.correctAnswer
 
         val time: String = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
         val newQuestion: String = question.toString()
-            .replace("\uD83D\uDD39 ${question.answer}", "\uD83D\uDD38 <b>${question.answer}</b>")
+            .replace("\uD83D\uDD39 ${question.correctAnswer}", "\uD83D\uDD38 <b>${question.correctAnswer}</b>")
 
         val answerQuery = AnswerCallbackQuery().callbackQuery(callbackQuery).text(PropertiesReader.getProperty("correct-answer-query"))
         val editMessage = EditMessageText().callbackQuery(callbackQuery).text(Text.parseHtml("${newQuestion}\n" + PropertiesReader.getProperty("game-ended").format(question.description, mentionPlayer(callbackQuery.sender.firstName, callbackQuery.sender.id), correctAnswer, time, databaseWrapper.getActualStreak(callbackQuery.sender.id)))).replyMarkup(null)
