@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Qual è la capitale della Francia?",
+    "possibleAnswers": ["Parigi", "Londra", "Roma", "Madrid"],
+    "correctAnswer": 0,
+    "description": "Parigi è la capitale della Francia."
+  },
+  {
+    "question": "Qual è il colore del cielo?",
+    "possibleAnswers": ["Blu", "Verde", "Giallo", "Rosso"],
+    "correctAnswer": 0,
+    "description": "Il cielo è generalmente blu."
+  }
+]
