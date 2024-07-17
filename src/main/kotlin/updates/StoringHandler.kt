@@ -10,9 +10,6 @@ class StoringHandler(
     private val mongoWrapper: MongoWrapper
 ) : MessageHandler {
 
-    /**
-     * Handle the user memorization system.
-     */
     override fun onMessage(message: Message) {
         if (message.chat is PrivateChat) return
 

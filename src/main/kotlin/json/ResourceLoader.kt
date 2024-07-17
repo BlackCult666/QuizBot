@@ -13,9 +13,6 @@ object ResourceLoader {
     val messages: MutableMap<String, String> = loadMessages()
     val questions: MutableList<Question> = loadQuestions()
 
-    /**
-     * Check the messages.json file.
-     */
     private fun loadMessages(): MutableMap<String, String> {
         if (!messagesFilePath.exists()) {
             throw IllegalArgumentException("File messages.json not found.")
@@ -25,9 +22,6 @@ object ResourceLoader {
         }
     }
 
-    /**
-     * Check the questions.json file.
-     */
     private fun loadQuestions(): MutableList<Question> {
         if (!questionsFilePath.exists()) {
             throw IllegalArgumentException("File questions.json not found.")

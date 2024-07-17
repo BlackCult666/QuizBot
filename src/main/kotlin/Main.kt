@@ -28,9 +28,6 @@ class QuizBot(
         startJob()
     }
 
-    /**
-     * Start the timer needed to send a random quiz.
-     */
     private fun startJob() {
         val timer = Timer()
         timer.schedule(object : TimerTask() {
@@ -45,9 +42,6 @@ class QuizJob(
     private val bot: Bot
 ) {
 
-    /**
-     * Run the task.
-     */
     fun run() {
         bot.sendMessage(-1002225719460, Text.parseHtml("Test"))
     }

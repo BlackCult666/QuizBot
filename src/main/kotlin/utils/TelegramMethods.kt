@@ -7,14 +7,8 @@ import io.github.ageofwar.telejam.methods.SendMessage
 import io.github.ageofwar.telejam.replymarkups.ReplyMarkup
 import io.github.ageofwar.telejam.text.Text
 
-/**
- * Mention the player through his id and name.
- */
 fun mentionPlayer(id: Long, name: String) = "<a href='tg://user?id=$id'>$name</a>"
 
-/**
- * Faster way to send a message.
- */
 fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarkup? = null): TextMessage {
     val sendMessage = SendMessage()
         .replyToMessage(replyToMessage)
@@ -24,9 +18,6 @@ fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarku
     return execute(sendMessage)
 }
 
-/**
- * Faster way to send a message in specific chats.
- */
 fun Bot.sendMessage(chatId: Long, text: Text, replyMarkup: ReplyMarkup? = null): TextMessage {
     val sendMessage = SendMessage()
         .chat(chatId)

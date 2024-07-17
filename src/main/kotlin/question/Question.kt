@@ -1,8 +1,5 @@
 package eu.blackcult.question
 
-/**
- * Simple data class representing a generic question.
- */
 data class Question(
     val question: String,
     val description: String,
