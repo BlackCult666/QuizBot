@@ -4,8 +4,11 @@ import eu.blackcult.commands.StartCommand
 import eu.blackcult.commands.StatsCommand
 import eu.blackcult.database.MongoWrapper
 import eu.blackcult.updates.StoringHandler
+import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
+import io.github.ageofwar.telejam.text.Text
+import java.util.*
 
 
 class QuizBot(
@@ -21,6 +24,32 @@ class QuizBot(
 
             registerUpdateHandler(StoringHandler(mongoWrapper))
         }
+
+        startJob()
+    }
+
+    /**
+     * Start the timer needed to send a random quiz.
+     */
+    private fun startJob() {
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                QuizJob(bot).run()
+            }
+        }, 0, 5 * 1000)
+    }
+}
+
+class QuizJob(
+    private val bot: Bot
+) {
+
+    /**
+     * Run the task.
+     */
+    fun run() {
+        bot.sendMessage(-1002225719460, Text.parseHtml("Test"))
     }
 }
 

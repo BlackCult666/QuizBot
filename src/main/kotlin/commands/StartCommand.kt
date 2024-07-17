@@ -12,7 +12,6 @@ import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
 import java.time.LocalTime
 
-@Suppress("UNUSED_EXPRESSION")
 class StartCommand(
     private val bot: Bot
 ) : CommandHandler {

@@ -13,23 +13,31 @@ object ResourceLoader {
     val messages: MutableMap<String, String> = loadMessages()
     val questions: MutableList<Question> = loadQuestions()
 
+    /**
+     * Check the messages.json file.
+     */
     private fun loadMessages(): MutableMap<String, String> {
         if (!messagesFilePath.exists()) {
-            throw IllegalArgumentException("File messages.json non trovato nella directory del progetto.")
+            throw IllegalArgumentException("File messages.json not found.")
         }
         BufferedReader(FileReader(messagesFilePath)).use {
             return gson.fromJson(it, MutableMap::class.java) as MutableMap<String, String>
         }
     }
 
+    /**
+     * Check the questions.json file.
+     */
     private fun loadQuestions(): MutableList<Question> {
         if (!questionsFilePath.exists()) {
-            throw IllegalArgumentException("File questions.json non trovato nella directory del progetto.")
+            throw IllegalArgumentException("File questions.json not found.")
         }
         BufferedReader(FileReader(questionsFilePath)).use {
             return gson.fromJson(it, Array<Question>::class.java).toMutableList()
         }
     }
+
+    /* Was thinking about making the bot customizable on Telegram itself.
 
     fun saveMessages() {
         BufferedWriter(FileWriter(messagesFilePath)).use {
@@ -42,4 +50,6 @@ object ResourceLoader {
             gson.toJson(questions, it)
         }
     }
+
+     */
 }

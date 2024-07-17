@@ -12,7 +12,9 @@ class MongoWrapper {
     private val database: MongoDatabase = client.getDatabase("quizBot")
     private var collection: MongoCollection<Document> = database.getCollection("users")
 
-    // Method to add player to database.
+    /**
+     * Add a player to database.
+     */
     fun addPlayer(id: Long, firstName: String) {
         val document = Document("id", id)
         document.append("firstName", firstName)
@@ -23,13 +25,17 @@ class MongoWrapper {
         collection.insertOne(document)
     }
 
-    // Method to check if user exists.
+    /**
+     * Check if user exists in database.
+     */
     fun playerExists(id: Long): Boolean {
         val player = collection.find(Document("id", id)).first()
         return player != null
     }
 
-    // Method to get user stats.
+    /**
+     * Return user's stats.
+     */
     fun getStats(id: Long): PlayerStats {
         val player = collection.find(Document("id", id)).first()
         val firstName = player?.getString("firstName") ?: ""
@@ -41,42 +47,54 @@ class MongoWrapper {
         return PlayerStats(id, firstName, correctAnswers, wrongAnswers, actualStreak, bestStreak)
     }
 
-    // Method to update user's first name.
+    /**
+     * Update user's first name.
+     */
     fun updateFirstName(id: Long, newFirstName: String) {
         val filter = Document("id", id)
         val update = BasicDBObject("\$set", Document("firstName", newFirstName))
         collection.updateOne(filter, update)
     }
 
-    // Method to increment a user's correct answers number.
+    /**
+     * Increment user correct answers.
+     */
     fun incrementCorrectAnswers(id: Long) {
         val filter = Document("id", id)
         val update = BasicDBObject("\$inc", BasicDBObject("correctAnswers", 1))
         collection.updateOne(filter, update)
     }
 
-    // Method to increment a user's wrong answers number.
+    /**
+     * Increment user wrong answers.
+     */
     fun incrementWrongAnswers(id: Long) {
         val filter = Document("id", id)
         val update = BasicDBObject("\$inc", BasicDBObject("wrongAnswers", 1))
         collection.updateOne(filter, update)
     }
 
-    // Method to increment the actual player's streak.
+    /**
+     * Increment user actual streak.
+     */
     fun incrementActualStreak(id: Long) {
         val filter = Document("id", id)
         val update = BasicDBObject("\$inc", BasicDBObject("actualStreak", 1))
         collection.updateOne(filter, update)
     }
 
-    // Method to set the actual player streak to 0.
+    /**
+     * Reset user actual streak.
+     */
     fun resetActualStreak(id: Long) {
         val filter = Document("id", id)
         val update = BasicDBObject("\$set", BasicDBObject("actualStreak", 0))
         collection.updateOne(filter, update)
     }
 
-    // Method to update the user's best streak.
+    /**
+     * Update user best streak.
+     */
     fun updateBestStreak(id: Long) {
         val player = collection.find(Document("id", id)).first()
         val actualStreak = player?.getInteger("actualStreak") ?: 0
@@ -89,6 +107,9 @@ class MongoWrapper {
     }
 }
 
+/**
+ * Simple data class to store user stats.
+ */
 data class PlayerStats(
     val id: Long,
     val firstName: String,

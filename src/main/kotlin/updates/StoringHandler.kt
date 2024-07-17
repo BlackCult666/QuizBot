@@ -1,6 +1,7 @@
 package eu.blackcult.updates
 
 import eu.blackcult.database.MongoWrapper
+import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.MessageHandler
 import io.github.ageofwar.telejam.messages.NewChatMembersMessage
@@ -9,7 +10,12 @@ class StoringHandler(
     private val mongoWrapper: MongoWrapper
 ) : MessageHandler {
 
+    /**
+     * Handle the user memorization system.
+     */
     override fun onMessage(message: Message) {
+        if (message.chat is PrivateChat) return
+
         if (message is NewChatMembersMessage) {
             for (user in message.newChatMembers) {
                 if (!mongoWrapper.playerExists(user.id)) {

@@ -5,6 +5,8 @@ import eu.blackcult.json.ResourceLoader.messages
 import eu.blackcult.utils.mentionPlayer
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
+import io.github.ageofwar.telejam.chats.Chat
+import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.commands.Command
 import io.github.ageofwar.telejam.commands.CommandHandler
 import io.github.ageofwar.telejam.messages.TextMessage
@@ -19,6 +21,11 @@ class StatsCommand(
 ) : CommandHandler {
 
     override fun onCommand(command: Command, message: TextMessage) {
+        if (message.chat is PrivateChat) {
+            bot.sendMessage(message, Text.parseHtml(messages["wrongChat"]))
+            return
+        }
+
         if (!mongoWrapper.playerExists(message.sender.id)) {
             mongoWrapper.addPlayer(message.sender.id, message.sender.firstName)
         }
