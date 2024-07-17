@@ -1,6 +1,7 @@
 package eu.blackcult
 
 import eu.blackcult.commands.StartCommand
+import eu.blackcult.commands.StatsCommand
 import eu.blackcult.database.MongoWrapper
 import eu.blackcult.updates.StoringHandler
 import io.github.ageofwar.telejam.Bot
@@ -16,8 +17,9 @@ class QuizBot(
 
         events.apply {
             registerCommand(StartCommand(bot), "start")
+            registerCommand(StatsCommand(bot, mongoWrapper), "stats")
 
-            registerUpdateHandler(StoringHandler(bot, mongoWrapper))
+            registerUpdateHandler(StoringHandler(mongoWrapper))
         }
     }
 }

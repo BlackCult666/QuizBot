@@ -1,7 +1,4 @@
 {
   "start": "<b>{greet}</b>, {user}<b> :)</b>\n\n<i>Sono il cercatore del caos, il distruttore della struttura dominante del mondo e il distruttore delle tue ambizioni!</i>\n\n<b><i><a href='https://t.me/satchman66'>Bot sviluppato da Alex</a> </i> </b>",
-  "help": "Test",
-  "quiz_start": "Iniziamo il quiz! Ecco la prima domanda:",
-  "correct_answer": "Corretto!",
-  "wrong_answer": "Sbagliato!"
+  "stats": "<b>Statistiche di {user} </b>\n\nRisposte totali: <b>{totalAnswers}</b>\nRisposte esatte: <b>{correctAnswers}</b> <i>({correctRatio}%)</i>\nRisposte sbagliate: <b>{wrongAnswers}</b> <i>({wrongRatio}%)</i>\n\nStreak attuale: <b>{actualStreak}</b>\nBest streak: <b>{bestStreak}</b>"
 }

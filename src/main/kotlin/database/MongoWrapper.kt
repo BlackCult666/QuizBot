@@ -12,6 +12,16 @@ class MongoWrapper {
     private val database: MongoDatabase = client.getDatabase("quizBot")
     private var collection: MongoCollection<Document> = database.getCollection("users")
 
+    // Method to add player to database.
+    fun addPlayer(id: Long, firstName: String) {
+        val document = Document("id", id)
+        document.append("firstName", firstName)
+        document.append("correctAnswers", 0)
+        document.append("wrongAnswers", 0)
+        document.append("actualStreak", 0)
+        document.append("bestStreak", 0)
+        collection.insertOne(document)
+    }
 
     // Method to check if user exists.
     fun playerExists(id: Long): Boolean {

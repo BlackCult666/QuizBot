@@ -1,22 +1,29 @@
 package eu.blackcult.updates
 
 import eu.blackcult.database.MongoWrapper
-import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.MessageHandler
-import io.github.ageofwar.telejam.messages.TextMessage
+import io.github.ageofwar.telejam.messages.NewChatMembersMessage
 
 class StoringHandler(
-    private val bot: Bot,
     private val mongoWrapper: MongoWrapper
 ) : MessageHandler {
 
     override fun onMessage(message: Message) {
-        if (message is TextMessage) {
-            println("Yes")
+        if (message is NewChatMembersMessage) {
+            for (user in message.newChatMembers) {
+                if (!mongoWrapper.playerExists(user.id)) {
+                    mongoWrapper.addPlayer(user.id, user.firstName)
+                }
+            }
         } else {
-            println("NOOOOOOOOOOOOoo!")
-            println(message)
+            val sender = message.sender
+            if (mongoWrapper.playerExists(sender.id)) {
+                val firstName = mongoWrapper.getStats(sender.id).firstName
+                if (firstName != sender.firstName) mongoWrapper.updateFirstName(sender.id, sender.firstName)
+            } else {
+                mongoWrapper.addPlayer(sender.id, sender.firstName)
+            }
         }
     }
 }
