@@ -16,24 +16,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs("src/main/resources")
-        }
-    }
-}
-
 tasks.test {
     useJUnitPlatform()
-}
-
-tasks.withType<Copy> {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType<ProcessResources> {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 kotlin {

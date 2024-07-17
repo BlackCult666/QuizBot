@@ -28,6 +28,7 @@ class StartCommand(
             in 18..23 -> "\uD83C\uDF12 Buonasera"
             else -> "\uD83C\uDF12 Buonasera"
         }
+
         val startMessage = messages["start"]
             ?.replace("{user}", mentionPlayer(sender.id, sender.firstName))
             ?.replace("{greet}", greeting)

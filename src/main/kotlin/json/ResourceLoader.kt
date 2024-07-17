@@ -1,41 +1,8 @@
 package eu.blackcult.json
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import eu.blackcult.question.Question
 import java.io.*
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
-
-/*object ResourceLoader {
-    private val gson = Gson()
-
-    val messages: Map<String, String>
-    val questions: List<Question>
-
-    init {
-        messages = loadMessages()
-        questions = loadQuestions()
-    }
-
-    private fun loadMessages(): Map<String, String> {
-        val inputStream = javaClass.classLoader.getResourceAsStream("messages.json")
-            ?: throw IllegalArgumentException("file not found! messages.json")
-        InputStreamReader(inputStream).use {
-            return gson.fromJson(it, Map::class.java) as Map<String, String>
-        }
-    }
-
-    private fun loadQuestions(): List<Question> {
-        val inputStream = javaClass.classLoader.getResourceAsStream("questions.json")
-            ?: throw IllegalArgumentException("file not found! questions.json")
-        InputStreamReader(inputStream).use {
-            return gson.fromJson(it, Array<Question>::class.java).toList()
-        }
-    }
-}*/
 
 object ResourceLoader {
     private val gson = Gson()
