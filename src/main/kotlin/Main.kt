@@ -6,6 +6,7 @@ import eu.blackcult.updates.StoringHandler
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
 
+
 class QuizBot(
     bot: Bot
 ) : LongPollingBot(bot) {
