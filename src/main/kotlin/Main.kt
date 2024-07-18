@@ -1,15 +1,21 @@
 package eu.blackcult
 
+import eu.blackcult.callbacks.QuizCallback
+import eu.blackcult.callbacks.activeQuiz
 import eu.blackcult.commands.StartCommand
 import eu.blackcult.commands.StatsCommand
 import eu.blackcult.database.MongoWrapper
-import eu.blackcult.updates.StoringHandler
+import eu.blackcult.json.ResourceLoader.messages
+import eu.blackcult.json.ResourceLoader.questions
+import eu.blackcult.question.Question
+import eu.blackcult.database.StoringHandler
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
+import io.github.ageofwar.telejam.json.Json
+import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
 import java.util.*
-
 
 class QuizBot(
     bot: Bot
@@ -23,6 +29,7 @@ class QuizBot(
             registerCommand(StatsCommand(bot, mongoWrapper), "stats")
 
             registerUpdateHandler(StoringHandler(mongoWrapper))
+            registerUpdateHandler(QuizCallback(bot, mongoWrapper))
         }
 
         startJob()
@@ -43,7 +50,30 @@ class QuizJob(
 ) {
 
     fun run() {
-        bot.sendMessage(-1002225719460, Text.parseHtml("Test"))
+        val randomQuestion = questions.random()
+        val possibleAnswers = randomQuestion.possibleAnswers.shuffled()
+
+        val formattedAnswers = possibleAnswers.joinToString("\n")
+
+        val quizText = messages["quiz"]
+            ?.replace("{question}", randomQuestion.question)
+            ?.replace("{possibleAnswers}", formattedAnswers)
+
+        val randomUUID = UUID.randomUUID().toString()
+
+        activeQuiz = Question(randomUUID, randomQuestion.question, randomQuestion.description, randomQuestion.correctAnswer, possibleAnswers)
+
+        bot.sendMessage(-1002225719460, Text.parseHtml(quizText), getButtons(randomUUID, possibleAnswers))
+    }
+
+    private fun getButtons(uuid: String, answers: List<String>): InlineKeyboardMarkup {
+        return Json.fromJson(
+            "{\"inline_keyboard\": [[{\"text\":\"${answers[0]}\", \"callback_data\":\"answer_${uuid}_${answers[0]}\"}," +
+                    "{\"text\":\"${answers[1]}\", \"callback_data\":\"answer_${uuid}_${answers[1]}\"}], " +
+                    "[{\"text\":\"${answers[2]}\", \"callback_data\":\"answer_${uuid}_${answers[2]}\"}, " +
+                    "{\"text\":\"${answers[3]}\", \"callback_data\":\"answer_${uuid}_${answers[3]}\"}]]}",
+            InlineKeyboardMarkup::class.java
+        )
     }
 }
 

@@ -1,6 +1,5 @@
-package eu.blackcult.updates
+package eu.blackcult.database
 
-import eu.blackcult.database.MongoWrapper
 import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.MessageHandler

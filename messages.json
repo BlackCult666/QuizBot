@@ -1,5 +1,11 @@
 {
   "start": "<b>{greet}</b>, {user}<b> :)</b>\n\n<i>Sono il cercatore del caos, il distruttore della struttura dominante del mondo e il distruttore delle tue ambizioni!</i>\n\n<b><i><a href='https://t.me/satchman66'>Bot sviluppato da Alex</a> </i> </b>",
-  "stats": "<b>Statistiche di {user} </b>\n\nRisposte totali: <b>{totalAnswers}</b>\nRisposte esatte: <b>{correctAnswers}</b> <i>({correctRatio}%)</i>\nRisposte sbagliate: <b>{wrongAnswers}</b> <i>({wrongRatio}%)</i>\n\nStreak attuale: <b>{actualStreak}</b>\nBest streak: <b>{bestStreak}</b>",
-  "wrongChat": "<b>Oops, il mio posto è <a href='https://t.me/steinsnetwork'>Steins;Network</a><b></b>!"
+  "stats": "<b>Statistiche di {user} </b>\n\nRisposte totali: <b>{totalAnswers}</b>\nRisposte esatte: <b>{correctAnswers}</b> <i>({correctRatio}%)</i>\nRisposte sbagliate: <b>{wrongAnswers}</b> <i>({wrongRatio}%)</i>\n\nStreak attuale: <b>{actualStreak}</b>\nStreak migliore: <b>{bestStreak}</b>",
+  "wrongChat": "<b>Oops, il mio posto è <a href='https://t.me/steinsnetwork'>Steins;Network</a><b></b>!",
+  "quiz": "{question}\n\n{possibleAnswers}",
+  "correct": "{question}\n\n{possibleAnswers}\n\nComplimenti {user}, hai indovinato la risposta corretta!",
+  "correctQuery": "Bravo, hai indovinato!",
+  "wrongQuery": "Ops, hai sbagliato!",
+  "quizDelay": "Hai sbagliato, riprova tra 1 minuto!",
+  "expiredQuiz": "Questa domanda è scaduta."
 }
