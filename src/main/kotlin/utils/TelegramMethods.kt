@@ -2,11 +2,15 @@ package eu.blackcult.utils
 
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.callbacks.CallbackQuery
+import io.github.ageofwar.telejam.chats.Chat
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.TextMessage
+import io.github.ageofwar.telejam.messages.VideoMessage
 import io.github.ageofwar.telejam.methods.AnswerCallbackQuery
 import io.github.ageofwar.telejam.methods.EditMessageText
+import io.github.ageofwar.telejam.methods.GetChat
 import io.github.ageofwar.telejam.methods.SendMessage
+import io.github.ageofwar.telejam.methods.SendVideo
 import io.github.ageofwar.telejam.replymarkups.ReplyMarkup
 import io.github.ageofwar.telejam.text.Text
 import java.io.Serializable
@@ -30,7 +34,19 @@ fun Bot.sendMessage(chatId: Long, text: Text, replyMarkup: ReplyMarkup? = null):
     return execute(sendMessage)
 }
 
-fun Bot.editText(callbackQuery: CallbackQuery, text: Text): Serializable? {
+fun Bot.sendVideo(replyToMessage: Message, text: Text, url: String): VideoMessage {
+    val sendVideo = SendVideo()
+        .replyToMessage(replyToMessage)
+        .video(url)
+        .caption(text)
+        .duration(-1)
+
+
+
+    return execute(sendVideo)
+}
+
+fun Bot.editText(callbackQuery: CallbackQuery, text: Text): Serializable {
     val editMessage = EditMessageText()
         .callbackQuery(callbackQuery)
         .text(text)
@@ -44,4 +60,11 @@ fun Bot.answerQuery(callbackQuery: CallbackQuery, text: String): Boolean {
         .text(text)
 
     return execute(answerCallbackQuery)
+}
+
+fun Bot.getChat(chatId: Long): Chat? {
+    val getChat = GetChat()
+        .chat(chatId)
+
+    return execute(getChat)
 }

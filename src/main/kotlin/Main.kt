@@ -8,10 +8,13 @@ import eu.blackcult.database.MongoWrapper
 import eu.blackcult.json.ResourceLoader.messages
 import eu.blackcult.json.ResourceLoader.questions
 import eu.blackcult.question.Question
-import eu.blackcult.database.StoringHandler
+import eu.blackcult.messages.StoringHandler
+import eu.blackcult.messages.WelcomeHandler
+import eu.blackcult.utils.getChat
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
+import io.github.ageofwar.telejam.TelegramException
 import io.github.ageofwar.telejam.json.Json
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
@@ -28,11 +31,11 @@ class QuizBot(
             registerCommand(StartCommand(bot), "start")
             registerCommand(StatsCommand(bot, mongoWrapper), "stats")
 
+            registerUpdateHandler(WelcomeHandler(bot))
             registerUpdateHandler(StoringHandler(mongoWrapper))
             registerUpdateHandler(QuizCallback(bot, mongoWrapper))
         }
 
-        startJob()
     }
 
     private fun startJob() {

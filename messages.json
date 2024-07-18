@@ -1,5 +1,6 @@
 {
   "start": "<b>{greet}</b>, {user}<b> :)</b>\n\n<i>Sono il cercatore del caos, il distruttore della struttura dominante del mondo e il distruttore delle tue ambizioni!</i>\n\n<b><i><a href='https://t.me/satchman66'>Bot sviluppato da Alex</a> </i> </b>",
+  "welcome": "<i>Sono io.</i> Sono stato catturato da un agente dell'Organizzazione.\n\nSi, si tratta di {user}, ma in qualche modo dovrei riuscire a svignarmela.\n\nNessun problema. <b>Operazione Eldritch</b>. Vuol dire che da oggi fingerò di aiutarli.\n\n<b><i>El, psy, kongroo.</i> </b>",
   "stats": "<b>Statistiche di {user} </b>\n\nRisposte totali: <b>{totalAnswers}</b>\nRisposte esatte: <b>{correctAnswers}</b> <i>({correctRatio}%)</i>\nRisposte sbagliate: <b>{wrongAnswers}</b> <i>({wrongRatio}%)</i>\n\nStreak attuale: <b>{actualStreak}</b>\nStreak migliore: <b>{bestStreak}</b>",
   "wrongChat": "<b>Oops, il mio posto è <a href='https://t.me/steinsnetwork'>Steins;Network</a><b></b>!",
   "quiz": "{question}\n\n{possibleAnswers}",
