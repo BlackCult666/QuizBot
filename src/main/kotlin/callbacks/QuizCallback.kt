@@ -5,11 +5,11 @@ import eu.blackcult.json.ResourceLoader.messages
 import eu.blackcult.question.Question
 import eu.blackcult.utils.answerQuery
 import eu.blackcult.utils.editText
-import eu.blackcult.utils.mentionPlayer
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.callbacks.CallbackQuery
 import io.github.ageofwar.telejam.callbacks.CallbackQueryHandler
 import io.github.ageofwar.telejam.text.Text
+import mentionPlayer
 import java.util.*
 
 var activeQuiz : Question? = null
@@ -54,11 +54,21 @@ class QuizCallback(
     }
 
     private fun handleCorrectAnswer(callback: CallbackQuery, question: Question) {
-        val formattedAnswers = question.possibleAnswers.joinToString("\n")
+        val emoji = messages["answerEmoji"]
+        val correctEmoji = messages["correctEmoji"]
+
+        val formattedAnswers = question.possibleAnswers.joinToString("\n") { answer ->
+            if (answer == question.correctAnswer) {
+                "$correctEmoji <b>$answer</b>"
+            } else {
+                "$emoji $answer"
+            }
+        }
 
         val correctText = messages["correct"]
             ?.replace("{question}", question.question)
             ?.replace("{possibleAnswers}", formattedAnswers)
+            ?.replace("{description}", question.description)
             ?.replace("{user}", mentionPlayer(callback.sender.id, callback.sender.firstName))
 
         bot.editText(callback, Text.parseHtml(correctText))

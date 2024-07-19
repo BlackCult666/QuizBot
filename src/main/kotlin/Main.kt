@@ -1,24 +1,26 @@
 package eu.blackcult
 
+import eu.blackcult.callbacks.LangCallback
 import eu.blackcult.callbacks.QuizCallback
 import eu.blackcult.callbacks.activeQuiz
+import eu.blackcult.commands.LangCommand
 import eu.blackcult.commands.StartCommand
 import eu.blackcult.commands.StatsCommand
 import eu.blackcult.database.MongoWrapper
 import eu.blackcult.json.ResourceLoader.messages
 import eu.blackcult.json.ResourceLoader.questions
-import eu.blackcult.question.Question
 import eu.blackcult.messages.StoringHandler
 import eu.blackcult.messages.WelcomeHandler
-import eu.blackcult.utils.getChat
+import eu.blackcult.question.Question
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
-import io.github.ageofwar.telejam.TelegramException
 import io.github.ageofwar.telejam.json.Json
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
 import java.util.*
+
+val GROUP_ID = -1002225719460
 
 class QuizBot(
     bot: Bot
@@ -29,12 +31,16 @@ class QuizBot(
 
         events.apply {
             registerCommand(StartCommand(bot), "start")
+            registerCommand(LangCommand(bot), "setlang")
             registerCommand(StatsCommand(bot, mongoWrapper), "stats")
 
             registerUpdateHandler(WelcomeHandler(bot))
+            registerUpdateHandler(LangCallback(bot))
             registerUpdateHandler(StoringHandler(mongoWrapper))
             registerUpdateHandler(QuizCallback(bot, mongoWrapper))
         }
+
+        startJob()
 
     }
 
@@ -56,7 +62,11 @@ class QuizJob(
         val randomQuestion = questions.random()
         val possibleAnswers = randomQuestion.possibleAnswers.shuffled()
 
-        val formattedAnswers = possibleAnswers.joinToString("\n")
+        val emoji = messages["answerEmoji"]
+
+        val formattedAnswers = possibleAnswers.joinToString("\n") { answer ->
+            "$emoji $answer"
+        }
 
         val quizText = messages["quiz"]
             ?.replace("{question}", randomQuestion.question)
@@ -66,7 +76,7 @@ class QuizJob(
 
         activeQuiz = Question(randomUUID, randomQuestion.question, randomQuestion.description, randomQuestion.correctAnswer, possibleAnswers)
 
-        bot.sendMessage(-1002225719460, Text.parseHtml(quizText), getButtons(randomUUID, possibleAnswers))
+        bot.sendMessage(GROUP_ID, Text.parseHtml(quizText), getButtons(randomUUID, possibleAnswers))
     }
 
     private fun getButtons(uuid: String, answers: List<String>): InlineKeyboardMarkup {

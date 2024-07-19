@@ -6,16 +6,11 @@ import io.github.ageofwar.telejam.chats.Chat
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.TextMessage
 import io.github.ageofwar.telejam.messages.VideoMessage
-import io.github.ageofwar.telejam.methods.AnswerCallbackQuery
-import io.github.ageofwar.telejam.methods.EditMessageText
-import io.github.ageofwar.telejam.methods.GetChat
-import io.github.ageofwar.telejam.methods.SendMessage
-import io.github.ageofwar.telejam.methods.SendVideo
+import io.github.ageofwar.telejam.methods.*
 import io.github.ageofwar.telejam.replymarkups.ReplyMarkup
 import io.github.ageofwar.telejam.text.Text
+import io.github.ageofwar.telejam.users.ChatMember
 import java.io.Serializable
-
-fun mentionPlayer(id: Long, name: String) = "<a href='tg://user?id=$id'>$name</a>"
 
 fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarkup? = null): TextMessage {
     val sendMessage = SendMessage()
@@ -23,6 +18,7 @@ fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarku
         .text(text)
         .replyMarkup(replyMarkup)
         .disableWebPagePreview()
+
     return execute(sendMessage)
 }
 
@@ -31,6 +27,7 @@ fun Bot.sendMessage(chatId: Long, text: Text, replyMarkup: ReplyMarkup? = null):
         .chat(chatId)
         .text(text)
         .replyMarkup(replyMarkup)
+
     return execute(sendMessage)
 }
 
@@ -40,8 +37,6 @@ fun Bot.sendVideo(replyToMessage: Message, text: Text, url: String): VideoMessag
         .video(url)
         .caption(text)
         .duration(-1)
-
-
 
     return execute(sendVideo)
 }
@@ -62,9 +57,12 @@ fun Bot.answerQuery(callbackQuery: CallbackQuery, text: String): Boolean {
     return execute(answerCallbackQuery)
 }
 
-fun Bot.getChat(chatId: Long): Chat? {
-    val getChat = GetChat()
-        .chat(chatId)
+fun Bot.getChatMember(chat: Chat, userId: Long): ChatMember {
+    val getChatMember = GetChatMember()
+        .chat(chat)
+        .user(userId)
 
-    return execute(getChat)
+    return execute(getChatMember)
 }
+
+fun Bot.isAdmin(chat: Chat, id: Long) = getChatMember(chat, id).isAdmin

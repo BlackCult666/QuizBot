@@ -1,15 +1,16 @@
 package eu.blackcult.commands
 
 import eu.blackcult.json.ResourceLoader.messages
-import eu.blackcult.utils.mentionPlayer
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
+import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.commands.Command
 import io.github.ageofwar.telejam.commands.CommandHandler
 import io.github.ageofwar.telejam.inline.UrlInlineKeyboardButton
 import io.github.ageofwar.telejam.messages.TextMessage
 import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
+import mentionPlayer
 import java.time.LocalTime
 
 class StartCommand(
@@ -17,8 +18,9 @@ class StartCommand(
 ) : CommandHandler {
 
     override fun onCommand(command: Command, message: TextMessage) {
-        val sender = message.sender
+        if (message.chat !is PrivateChat) return
 
+        val sender = message.sender
         val actualHour = LocalTime.now().hour
 
         val greeting = when (actualHour) {

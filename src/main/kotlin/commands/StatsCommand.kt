@@ -1,19 +1,17 @@
 package eu.blackcult.commands
 
+import eu.blackcult.GROUP_ID
 import eu.blackcult.database.MongoWrapper
 import eu.blackcult.json.ResourceLoader.messages
-import eu.blackcult.utils.mentionPlayer
 import eu.blackcult.utils.sendMessage
 import io.github.ageofwar.telejam.Bot
-import io.github.ageofwar.telejam.chats.Chat
 import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.commands.Command
 import io.github.ageofwar.telejam.commands.CommandHandler
 import io.github.ageofwar.telejam.messages.TextMessage
 import io.github.ageofwar.telejam.text.Text
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.*
+import mentionPlayer
+import percentage
 
 class StatsCommand(
     private val bot: Bot,
@@ -25,6 +23,8 @@ class StatsCommand(
             bot.sendMessage(message, Text.parseHtml(messages["wrongChat"]))
             return
         }
+
+        if (message.chat.id != GROUP_ID) return
 
         if (!mongoWrapper.playerExists(message.sender.id)) {
             mongoWrapper.addPlayer(message.sender.id, message.sender.firstName)
@@ -46,19 +46,5 @@ class StatsCommand(
             ?.replace("{bestStreak}", "${playerStats.bestStreak}")
 
         bot.sendMessage(message, Text.parseHtml(statsMessage))
-    }
-
-    private fun percentage(part: Int, whole: Int): Double {
-        if (whole == 0) {
-            return 0.0
-        }
-
-        val percentage = 100.0 * part / whole
-
-        val symbols = DecimalFormatSymbols(Locale.ITALY)
-        val df = DecimalFormat("#.##", symbols)
-
-        return df.format(percentage).toDouble()
-
     }
 }

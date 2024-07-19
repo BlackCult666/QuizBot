@@ -1,5 +1,6 @@
 package eu.blackcult.messages
 
+import eu.blackcult.GROUP_ID
 import eu.blackcult.database.MongoWrapper
 import io.github.ageofwar.telejam.chats.PrivateChat
 import io.github.ageofwar.telejam.messages.Message
@@ -11,7 +12,7 @@ class StoringHandler(
 ) : MessageHandler {
 
     override fun onMessage(message: Message) {
-        if (message.chat is PrivateChat) return
+        if (message.chat is PrivateChat || message.chat.id != GROUP_ID) return
 
         if (message is NewChatMembersMessage) {
             for (user in message.newChatMembers) {
