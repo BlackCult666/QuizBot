@@ -20,7 +20,7 @@ import io.github.ageofwar.telejam.replymarkups.InlineKeyboardMarkup
 import io.github.ageofwar.telejam.text.Text
 import java.util.*
 
-val GROUP_ID = -1002225719460
+const val GROUP_ID = -1002225719460
 
 class QuizBot(
     bot: Bot
