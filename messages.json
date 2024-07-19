@@ -1,1 +1,25 @@
-{"start":"\u003cb\u003e{greet}\u003c/b\u003e, {user}\u003cb\u003e :)\u003c/b\u003e\n\n\u003ci\u003eSono il cercatore del caos, il distruttore della struttura dominante del mondo e il distruttore delle tue ambizioni!\u003c/i\u003e\n\n\u003cb\u003e\u003ci\u003e\u003ca href\u003d\u0027https://t.me/satchman66\u0027\u003eBot sviluppato da Alex\u003c/a\u003e \u003c/i\u003e \u003c/b\u003e","welcome":"\u003ci\u003eSono io.\u003c/i\u003e Sono stato catturato da un agente dell\u0027Organizzazione.\n\nSi, si tratta di {user}, ma in qualche modo dovrei riuscire a svignarmela.\n\nNessun problema. \u003cb\u003eOperazione Eldritch\u003c/b\u003e. Vuol dire che da oggi fingerò di aiutarli.\n\n\u003cb\u003e\u003ci\u003eEl, psy, kongroo.\u003c/i\u003e \u003c/b\u003e","stats":"\u003cb\u003eStatistiche di {user} \u003c/b\u003e\n\nRisposte totali: \u003cb\u003e{totalAnswers}\u003c/b\u003e\nRisposte esatte: \u003cb\u003e{correctAnswers}\u003c/b\u003e \u003ci\u003e({correctRatio}%)\u003c/i\u003e\nRisposte sbagliate: \u003cb\u003e{wrongAnswers}\u003c/b\u003e \u003ci\u003e({wrongRatio}%)\u003c/i\u003e\n\nStreak attuale: \u003cb\u003e{actualStreak}\u003c/b\u003e\nStreak migliore: \u003cb\u003e{bestStreak}\u003c/b\u003e","noPermission":"\u003cb\u003eNon hai il permesso di eseguire questo comando.\u003c/b\u003e","wrongChat":"\u003cb\u003eOops, il mio posto è \u003ca href\u003d\u0027https://t.me/steinsnetwork\u0027\u003eSteins;Network\u003c/a\u003e\u003cb\u003e\u003c/b\u003e!","quiz":"🔎 \u003cb\u003e{question}\u003c/b\u003e\n\n{possibleAnswers}","answerEmoji":"❓","correctEmoji":"🔹","correct":"🔎 \u003cb\u003e{question}\u003c/b\u003e\n\n{possibleAnswers}\n\n{description}\n\n🥇 \u003cb\u003eComplimenti\u003c/b\u003e {user}, hai indovinato la risposta corretta!\n\n🔥 {actualStreak} \u003ci\u003e(streak attuale)\u003c/i\u003e","correctQuery":"Bravo, hai indovinato!","wrongQuery":"Ops, hai sbagliato!","quizDelay":"Hai sbagliato, riprova tra 1 minuto!","expiredQuiz":"Questa domanda è scaduta.","topMessage":"\u003cb\u003eRisposte corrette:\u003c/b\u003e\n{correctTop}\n\n\u003cb\u003eRisposte sbagliate:\u003c/b\u003e\n{wrongTop}\n\n\u003cb\u003eStreak migliori:\u003c/b\u003e\n{streakTop}","replyToFile":"Devi rispondere ad un file di tipo JSON!","wrongExtension":"Il file deve avere come estensione .json!","fileCancel":"Aggiornamento del file annullato con successo","fileCancelQuery":"Annullato!","fileUpdated":"File aggiornato con successo.","fileUpdatedQuery":"File aggiornato!","fileConfirm":"\u003cb\u003eSei sicuro di voler cambiare il file dei messaggi?\u003c/b\u003e\n\n\u003ci\u003eOcchio, non potrai tornare indietro!\u003c/i\u003e","fileBackButton":"❌ Annulla","fileAcceptButton":"✅ Accetta"}
+{
+  "start": "<b>{greet}</b>, {user}<b> :)</b>\n\n<i>Sono il cercatore del caos, il distruttore della struttura dominante del mondo e il distruttore delle tue ambizioni!</i>\n\n<b><i><a href='https://t.me/satchman66'>Bot sviluppato da Alex</a> </i> </b>",
+  "welcome": "<i>Sono io.</i> Sono stato catturato da un agente dell'Organizzazione.\n\nSi, si tratta di {user}, ma in qualche modo dovrei riuscire a svignarmela.\n\nNessun problema. <b>Operazione Eldritch</b>. Vuol dire che da oggi fingerò di aiutarli.\n\n<b><i>El, psy, kongroo.</i> </b>",
+  "stats": "<b>Statistiche di {user} </b>\n\nRisposte totali: <b>{totalAnswers}</b>\nRisposte esatte: <b>{correctAnswers}</b> <i>({correctRatio}%)</i>\nRisposte sbagliate: <b>{wrongAnswers}</b> <i>({wrongRatio}%)</i>\n\nStreak attuale: <b>{actualStreak}</b>\nStreak migliore: <b>{bestStreak}</b>",
+  "noPermission": "<b>Non hai il permesso di eseguire questo comando.</b>",
+  "wrongChat": "<b>Oops, il mio posto è <a href='https://t.me/steinsnetwork'>Steins;Network</a><b></b>!",
+  "quiz": "\uD83D\uDD0E <b>{question}</b>\n\n{possibleAnswers}",
+  "answerEmoji": "❓",
+  "correctEmoji": "\uD83D\uDD39",
+  "correct": "\uD83D\uDD0E <b>{question}</b>\n\n{possibleAnswers}\n\n{description}\n\n\uD83E\uDD47 <b>Complimenti</b> {user}, hai indovinato la risposta corretta!\n\n\uD83D\uDD25 {actualStreak} <i>(streak attuale)</i>",
+  "correctQuery": "Bravo, hai indovinato!",
+  "wrongQuery": "Ops, hai sbagliato!",
+  "quizDelay": "Hai sbagliato, riprova tra 1 minuto!",
+  "expiredQuiz": "Questa domanda è scaduta.",
+  "topMessage": "<b>Risposte corrette:</b>\n{correctTop}\n\n<b>Risposte sbagliate:</b>\n{wrongTop}\n\n<b>Streak migliori:</b>\n{streakTop}",
+  "replyToFile": "Devi rispondere ad un file di tipo JSON!",
+  "wrongExtension": "Il file deve avere come estensione .json!",
+  "fileCancel": "Aggiornamento del file annullato con successo",
+  "fileCancelQuery": "Annullato!",
+  "fileUpdated": "File aggiornato con successo.",
+  "fileUpdatedQuery": "File aggiornato!",
+  "fileConfirm": "<b>Sei sicuro di voler cambiare il file dei messaggi?</b>\n\n<i>Occhio, non potrai tornare indietro!</i>",
+  "fileBackButton": "❌ Annulla",
+  "fileAcceptButton": "✅ Accetta"
+}
