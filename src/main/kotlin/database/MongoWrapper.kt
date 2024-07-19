@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Sorts
 import org.bson.Document
 
 class MongoWrapper {
@@ -36,6 +37,26 @@ class MongoWrapper {
         val bestStreak = player?.getInteger("bestStreak") ?: 0
 
         return PlayerStats(id, firstName, correctAnswers, wrongAnswers, actualStreak, bestStreak)
+    }
+
+
+    fun getTopPlayers(field: String): List<PlayerStats> {
+        val topPlayers = collection.find()
+            .sort(Sorts.descending(field))
+            .limit(3)
+            .map { doc ->
+                PlayerStats(
+                    id = doc.getLong("id"),
+                    firstName = doc.getString("firstName"),
+                    correctAnswers = doc.getInteger("correctAnswers"),
+                    wrongAnswers = doc.getInteger("wrongAnswers"),
+                    actualStreak = doc.getInteger("actualStreak"),
+                    bestStreak = doc.getInteger("bestStreak")
+                )
+            }
+            .toList()
+
+        return topPlayers
     }
 
     fun updateFirstName(id: Long, newFirstName: String) {

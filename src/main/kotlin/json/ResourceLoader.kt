@@ -13,9 +13,9 @@ object ResourceLoader {
     private val requiredKeys = setOf(
         "start", "welcome", "stats", "noPermission", "wrongChat", "quiz",
         "answerEmoji", "correctEmoji", "correct", "correctQuery", "wrongQuery",
-        "quizDelay", "expiredQuiz", "replyToFile", "wrongExtension", "fileCancel",
-        "fileCancelQuery", "fileUpdated", "fileUpdatedQuery", "fileConfirm",
-        "fileBackButton", "fileAcceptButton",
+        "quizDelay", "expiredQuiz", "topMessage", "replyToFile", "wrongExtension",
+        "fileCancel", "fileCancelQuery", "fileUpdated", "fileUpdatedQuery",
+        "fileConfirm", "fileBackButton", "fileAcceptButton",
     )
 
     var messages: MutableMap<String, String> = loadMessages()

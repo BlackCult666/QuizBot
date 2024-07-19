@@ -65,18 +65,20 @@ class QuizCallback(
             }
         }
 
+        mongoWrapper.incrementCorrectAnswers(callback.sender.id)
+        mongoWrapper.incrementActualStreak(callback.sender.id)
+        mongoWrapper.updateBestStreak(callback.sender.id)
+
+        val stats = mongoWrapper.getStats(callback.sender.id)
         val correctText = messages["correct"]
             ?.replace("{question}", question.question)
             ?.replace("{possibleAnswers}", formattedAnswers)
             ?.replace("{description}", question.description)
             ?.replace("{user}", mentionPlayer(callback.sender.id, callback.sender.firstName))
+            ?.replace("{actualStreak}", stats.actualStreak.toString())
 
         bot.editText(callback, Text.parseHtml(correctText))
         bot.answerQuery(callback, messages["correctQuery"].toString())
-
-        mongoWrapper.incrementCorrectAnswers(callback.sender.id)
-        mongoWrapper.incrementActualStreak(callback.sender.id)
-        mongoWrapper.updateBestStreak(callback.sender.id)
     }
 
     private fun handleWrongAnswer(callback: CallbackQuery) {
