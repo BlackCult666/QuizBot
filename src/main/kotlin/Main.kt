@@ -50,7 +50,7 @@ class QuizBot(
             override fun run() {
                 QuizJob(bot).run()
             }
-        }, 0, 10 * 1000)
+        }, 0, 30 * 1000)
     }
 }
 
