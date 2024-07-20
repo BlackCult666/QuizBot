@@ -43,11 +43,15 @@ class QuizCallback(
 
     private fun handleGame(callback: CallbackQuery, answer: String, question: Question) {
         if (!cooldowns.contains(callback.sender.id)) {
+            mongoWrapper.recordAnswer(callback.sender.id, question.uuid, answer)
+
             if (answer == question.correctAnswer) {
                 handleCorrectAnswer(callback, question)
             } else {
                 handleWrongAnswer(callback)
             }
+
+            addCooldown(callback.sender.id)
         } else {
             bot.answerQuery(callback, messages["quizDelay"].toString())
         }
@@ -57,11 +61,16 @@ class QuizCallback(
         val emoji = messages["answerEmoji"]
         val correctEmoji = messages["correctEmoji"]
 
+        val questionStats = mongoWrapper.getAnswerStats(question.uuid)
+        val totalVotes = questionStats.values.sum()
+
         val formattedAnswers = question.possibleAnswers.joinToString("\n") { answer ->
+            val voteCount = questionStats[answer] ?: 0
+            val percentage = if (totalVotes > 0) (voteCount * 100 / totalVotes) else 0
             if (answer == question.correctAnswer) {
-                "$correctEmoji <b>$answer</b>"
+                "$correctEmoji <b>$answer</b> - $percentage% (voti: $voteCount)"
             } else {
-                "$emoji $answer"
+                "$emoji $answer - $percentage% (voti: $voteCount)"
             }
         }
 
@@ -83,8 +92,6 @@ class QuizCallback(
 
     private fun handleWrongAnswer(callback: CallbackQuery) {
         bot.answerQuery(callback, messages["wrongQuery"].toString())
-
-        addCooldown(callback.sender.id)
 
         mongoWrapper.incrementWrongAnswers(callback.sender.id)
         mongoWrapper.resetActualStreak(callback.sender.id)

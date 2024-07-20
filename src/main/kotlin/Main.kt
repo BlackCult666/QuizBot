@@ -3,10 +3,7 @@ package eu.blackcult
 import eu.blackcult.callbacks.LangCallback
 import eu.blackcult.callbacks.QuizCallback
 import eu.blackcult.callbacks.activeQuiz
-import eu.blackcult.commands.LangCommand
-import eu.blackcult.commands.StartCommand
-import eu.blackcult.commands.StatsCommand
-import eu.blackcult.commands.TopCommand
+import eu.blackcult.commands.*
 import eu.blackcult.database.MongoWrapper
 import eu.blackcult.json.ResourceLoader.messages
 import eu.blackcult.json.ResourceLoader.questions
@@ -32,13 +29,14 @@ class QuizBot(
 
         events.apply {
             registerCommand(StartCommand(bot), "start")
-            registerCommand(LangCommand(bot), "setlang")
+            registerCommand(LangCommand(bot), "setlang", "setmessages")
+            registerCommand(AddQuestionCommand(bot), "addquiz", "addquestion")
             registerCommand(StatsCommand(bot, mongoWrapper), "stats", "statistiche")
             registerCommand(TopCommand(bot, mongoWrapper), "top", "classifica", "leaderboard")
 
             registerUpdateHandler(WelcomeHandler(bot))
             registerUpdateHandler(LangCallback(bot))
-            registerUpdateHandler(StoringHandler(mongoWrapper))
+            registerUpdateHandler(StoringHandler(bot, mongoWrapper))
             registerUpdateHandler(QuizCallback(bot, mongoWrapper))
         }
 
@@ -52,7 +50,7 @@ class QuizBot(
             override fun run() {
                 QuizJob(bot).run()
             }
-        }, 0, 80 * 1000)
+        }, 0, 10 * 1000)
     }
 }
 

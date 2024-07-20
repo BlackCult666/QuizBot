@@ -60,7 +60,7 @@ class LangCommand(
 
         val missingKeys = ResourceLoader.validateMessages(newMessages)
         if (missingKeys.isNotEmpty()) {
-            bot.sendMessage(message, Text.parseHtml("<b>Key mancanti:</b> ${missingKeys.joinToString(", ")}"))
+            bot.sendMessage(message, Text.parseHtml("<b>Campi mancanti:</b> ${missingKeys.joinToString(", ")}"))
             return
         }
 

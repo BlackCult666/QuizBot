@@ -6,12 +6,14 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Sorts
+import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
 
 class MongoWrapper {
     private val client: MongoClient = MongoClients.create("mongodb://localhost:27017")
     private val database: MongoDatabase = client.getDatabase("quizBot")
     private var collection: MongoCollection<Document> = database.getCollection("users")
+    private var questionsCollection: MongoCollection<Document> = database.getCollection("questions")
 
     fun addPlayer(id: Long, firstName: String) {
         val document = Document("id", id)
@@ -38,7 +40,6 @@ class MongoWrapper {
 
         return PlayerStats(id, firstName, correctAnswers, wrongAnswers, actualStreak, bestStreak)
     }
-
 
     fun getTopPlayers(field: String): List<PlayerStats> {
         val topPlayers = collection.find()
@@ -98,6 +99,48 @@ class MongoWrapper {
             val update = BasicDBObject("\$set", BasicDBObject("bestStreak", actualStreak))
             collection.updateOne(Document("id", id), update)
         }
+    }
+
+    fun recordAnswer(userId: Long, questionUUID: String, answer: String) {
+        val existingAnswer = questionsCollection.find(Document("userId", userId).append("questionUUID", questionUUID)).firstOrNull()
+        if (existingAnswer != null) {
+            val previousAnswer = existingAnswer.getString("answer")
+            if (previousAnswer != answer) {
+                questionsCollection.updateOne(
+                    Document("questionUUID", questionUUID).append("answer", previousAnswer),
+                    BasicDBObject("\$inc", BasicDBObject("count", -1))
+                )
+                questionsCollection.updateOne(
+                    Document("userId", userId).append("questionUUID", questionUUID),
+                    BasicDBObject("\$set", Document("answer", answer))
+                )
+                questionsCollection.updateOne(
+                    Document("questionUUID", questionUUID).append("answer", answer),
+                    BasicDBObject("\$inc", BasicDBObject("count", 1)),
+                    UpdateOptions().upsert(true)
+                )
+            }
+        } else {
+            val document = Document("userId", userId)
+                .append("questionUUID", questionUUID)
+                .append("answer", answer)
+            questionsCollection.insertOne(document)
+
+            questionsCollection.updateOne(
+                Document("questionUUID", questionUUID).append("answer", answer),
+                BasicDBObject("\$inc", BasicDBObject("count", 1)),
+                UpdateOptions().upsert(true)
+            )
+        }
+    }
+
+    fun getAnswerStats(questionUUID: String): Map<String, Int> {
+        val stats = mutableMapOf<String, Int>()
+        val cursor = questionsCollection.find(Document("questionUUID", questionUUID))
+        cursor.forEach { doc ->
+            stats[doc.getString("answer")] = doc.getInteger("count")
+        }
+        return stats
     }
 }
 

@@ -10,7 +10,7 @@
   "correct": "\uD83D\uDD0E <b>{question}</b>\n\n{possibleAnswers}\n\n{description}\n\n\uD83E\uDD47 <b>Complimenti</b> {user}, hai indovinato la risposta corretta!\n\n\uD83D\uDD25 {actualStreak} <i>(streak attuale)</i>",
   "correctQuery": "Bravo, hai indovinato!",
   "wrongQuery": "Ops, hai sbagliato!",
-  "quizDelay": "Hai sbagliato, riprova tra 1 minuto!",
+  "quizDelay": "Hai già premuto un tasto, aspetta!",
   "expiredQuiz": "Questa domanda è scaduta.",
   "topMessage": "<b>Risposte corrette:</b>\n{correctTop}\n\n<b>Risposte sbagliate:</b>\n{wrongTop}\n\n<b>Streak migliori:</b>\n{streakTop}",
   "replyToFile": "Devi rispondere ad un file di tipo JSON!",
@@ -21,5 +21,8 @@
   "fileUpdatedQuery": "File aggiornato!",
   "fileConfirm": "<b>Sei sicuro di voler cambiare il file dei messaggi?</b>\n\n<i>Occhio, non potrai tornare indietro!</i>",
   "fileBackButton": "❌ Annulla",
-  "fileAcceptButton": "✅ Accetta"
+  "fileAcceptButton": "✅ Accetta",
+  "addQuestionUsage": "<b>Uso corretto: /addquestion [json] </b>",
+  "questionAdded": "<b>Domanda aggiunta con successo!</b>",
+  "jsonError": "Errore nel formato JSON, verifica la sintassi."
 }
