@@ -1,8 +1,8 @@
 [
   {
-    "question": "Qual è il soprannome di Rintarou Okabe?",
-    "possibleAnswers": ["Kyouma Hououin", "Daru", "Kurisu", "Suzuha"],
-    "correctAnswer": "Kyouma Hououin",
-    "description": "Rintarou Okabe è conosciuto con il soprannome di Kyouma Hououin."
+    "question": "Qual è la capitale della Francia?",
+    "possibleAnswers": ["Napoli", "Parigi", "Madrid", "Stoccolma"],
+    "correctAnswer": "Parigi",
+    "description": "La capitale della Francia è Parigi, non credi?"
   }
 ]

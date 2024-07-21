@@ -91,7 +91,7 @@ class QuizJob(
 }
 
 fun main() {
-    val token = "5487274600:AAGMjOQoU4hVO_88UBUjjKfOADVJ00GrXgQ"
+    val token = "token"
     val bot = Bot.fromToken(token)
 
     QuizBot(bot).use {

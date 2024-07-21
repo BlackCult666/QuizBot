@@ -52,7 +52,7 @@ object ResourceLoader {
             "quizDelay", "expiredQuiz", "topMessage", "replyToFile", "wrongExtension",
             "fileCancel", "fileCancelQuery", "fileUpdated", "fileUpdatedQuery",
             "fileConfirm", "fileBackButton", "fileAcceptButton", "addQuestionUsage",
-            "questionAdded"
+            "questionAdded", "jsonError",
         )
 
         return messagesKey.filterNot { newMessages.containsKey(it) }
