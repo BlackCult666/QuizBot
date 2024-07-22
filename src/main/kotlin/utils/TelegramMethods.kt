@@ -12,49 +12,49 @@ import io.github.ageofwar.telejam.text.Text
 import io.github.ageofwar.telejam.users.ChatMember
 import java.io.Serializable
 
-fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarkup? = null): TextMessage {
+fun Bot.sendMessage(replyToMessage: Message, text: Text, replyMarkup: ReplyMarkup? = null) {
     val sendMessage = SendMessage()
         .replyToMessage(replyToMessage)
         .text(text)
         .replyMarkup(replyMarkup)
         .disableWebPagePreview()
 
-    return execute(sendMessage)
+    execute(sendMessage)
 }
 
-fun Bot.sendMessage(chatId: Long, text: Text, replyMarkup: ReplyMarkup? = null): TextMessage {
+fun Bot.sendMessage(chatId: Long, text: Text, replyMarkup: ReplyMarkup? = null) {
     val sendMessage = SendMessage()
         .chat(chatId)
         .text(text)
         .replyMarkup(replyMarkup)
 
-    return execute(sendMessage)
+    execute(sendMessage)
 }
 
-fun Bot.sendVideo(replyToMessage: Message, text: Text, url: String): VideoMessage {
+fun Bot.sendVideo(replyToMessage: Message, text: Text, url: String) {
     val sendVideo = SendVideo()
         .replyToMessage(replyToMessage)
         .video(url)
         .caption(text)
         .duration(-1)
 
-    return execute(sendVideo)
+    execute(sendVideo)
 }
 
-fun Bot.editText(callbackQuery: CallbackQuery, text: Text): Serializable {
+fun Bot.editText(callbackQuery: CallbackQuery, text: Text) {
     val editMessage = EditMessageText()
         .callbackQuery(callbackQuery)
         .text(text)
 
-    return execute(editMessage)
+    execute(editMessage)
 }
 
-fun Bot.answerQuery(callbackQuery: CallbackQuery, text: String): Boolean {
+fun Bot.answerQuery(callbackQuery: CallbackQuery, text: String) {
     val answerCallbackQuery = AnswerCallbackQuery()
         .callbackQuery(callbackQuery)
         .text(text)
 
-    return execute(answerCallbackQuery)
+    execute(answerCallbackQuery)
 }
 
 fun Bot.getChatMember(chat: Chat, userId: Long): ChatMember {
